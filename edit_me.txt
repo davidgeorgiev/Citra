@@ -1,6 +1,6 @@
 the number of the albums:20
 the number of the pics in gallery on one page:5
-address to explore:/home/tehtri/Pictures
+address to explore:/example/dir/something
 minimal dimensions:1
 limitation of proportions yes or no:yes
 thumbnail max dimensions in pixels:450
