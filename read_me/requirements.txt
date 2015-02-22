@@ -1,0 +1,7 @@
+sudo apt-get install ruby
+gem install fastimage
+sudo apt-get install libmagickwand-dev
+sudo apt-get install imagemagick
+sudo apt-get install ruby1.9.1-dev
+gem install rmagick
+gem install ZenTest -v 3.0

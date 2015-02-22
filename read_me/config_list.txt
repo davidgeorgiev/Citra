@@ -1,0 +1,11 @@
+0 original address
+1 name
+2 album
+3 id
+4 width
+5 height
+6 date
+7 album preview address
+8 thumbnail address
+9 average calsificated color
+10 date in seconds
