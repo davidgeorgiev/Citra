@@ -26,32 +26,32 @@ end
 class Html
 	def create_index_page
 		pagefile = File.new("index1.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
 		pagefile.close
 	end
 	def create_page(page_name,name_for_link)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
 		pagefile.close
 	end
 	def create_page_color_clasificated(page_name,base_page)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"buttons\"><a id = \"previous_b\" href = \"#{base_page}.html\">Prev</a>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"previous_b\" href = \"#{base_page}.html\">Prev</a>"
 		pagefile.close
 	end
 	def create_color_list(page_name)
 		pagefile = File.new("html/#{page_name}_clasificated_by_color_PicExDG_disp_list.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t</head>\n\t<body>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
 		pagefile.close
 	end
 	def create_main_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"html/themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
+		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"html/themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
 		pagefile.close
 	end
 	def create_slideshow_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body>"
+		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
 		pagefile.close
 	end
 end
@@ -75,7 +75,7 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 	else
 		Html.new.create_slideshow_page("html/#{my_config_file.split(/\//).last.split(/\./).first}_slideshow_Citra_David_Konstantin_4337387520121220_page")
 		main_pagefile = File.new("html/#{my_config_file.split(/\//).last.split(/\./).first}_slideshow_Citra_David_Konstantin_4337387520121220_page.html", "a+")
-		main_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file.split(/\//).last.split(/\./).first}.html\">Prev</a><div id=\"buttons\"><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
+		main_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file.split(/\//).last.split(/\./).first}.html\">Prev</a><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
 	end
 	text=File.open(my_config_file).read
 	text.gsub!(/\r\n?/, "\n")
@@ -138,6 +138,9 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 	colors_info.each do |color,number|
 		color_list_page.puts "<td><div class = \"index_album\"><a href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\" ><p id = \"title\">#{color}: [#{number} photos]</p><p><img src=\"colors/#{color}.jpg\" alt=\"#{color}\" id=\"index_photo\"/></p></a></div></td>"
 		Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list")
+		Html.new.create_slideshow_page("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow")
+		slideshow_pagefile = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow.html", "a+")
+		slideshow_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\">Prev</a><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
 		td_color_list_page_counter += 1
 		if td_color_list_page_counter == 4 then
 			color_list_page.puts "</tr><tr>"
@@ -159,6 +162,7 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 	end
 	page_counter_with_that_color = Hash.new(1)
 	photo_counter_with_that_color = Hash.new(1)
+	photo_counter_with_that_color_sumed = Hash.new(1)
 	text.each_line do |line|
 		photo_counter = photo_counter + 1
 		if page_counter_with_that_color[line.split("*sep*")[9]] == 1 then
@@ -167,12 +171,19 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 				page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]}.html", "a+")
 		end
 		if photo_counter_with_that_color[line.split("*sep*")[9]] == 1 then
+			page_with_images_in_current_color.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}_slideshow.html\">Go to the slideshow</a></div>"
 			random = Random.rand(5)
 			if (random == 1) then
 				page_with_images_in_current_color.puts "\t\t<div class = \"album2\">"
 			else
 				page_with_images_in_current_color.puts "\t\t<div class = \"album\">"
 			end	
+		end
+		color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}_slideshow.html","a+")
+		if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+			color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+		else
+			color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 		end
 		if (photo_counter_with_that_color[line.split("*sep*")[9]] <= pics_on_page_num-1) then
 			random = Random.rand(2)
@@ -194,8 +205,14 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 					page_counter_with_that_color[line.split("*sep*")[9]] += 1
 				end
 				photo_counter_with_that_color[line.split("*sep*")[9]] = 0
+			else
+				if photo_counter_with_that_color_sumed[line.split("*sep*")[9]] == colors_info[line.split("*sep*")[9]]
+					page_with_images_in_current_color.puts "</body></html>"
+					#color_page_slideshow.puts "</div></div></div></body></html>"
+				end
 			end
 			photo_counter_with_that_color[line.split("*sep*")[9]] += 1
+			photo_counter_with_that_color_sumed[line.split("*sep*")[9]] += 1
 		end
 		page_with_images_in_current_color.close
 		if (photo_counter == pics_on_page_num) then #the number of the pics in gallery + 1
@@ -249,7 +266,7 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 			pagefile.puts "<a id = \"next_b\" href = \"#{page_name}\">Next</a></div>"
 			pagefile.close
 			pagefile = File.new(page_name, "w+")
-			pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body>"
+			pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
 			album_counter = 1
 			page_counter = page_counter + 1
 			pagefile.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"html/PicExDGAllImgs.html\">All photos in gallery</a></div>"
