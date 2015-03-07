@@ -1,8 +1,9 @@
 the number of the albums:20
 the number of the pics in gallery on one page:5
-address to explore:/example/dir/something
+address to explore:/home/tehtri/Pictures
 minimal dimensions:1
 limitation of proportions yes or no:yes
 thumbnail max dimensions in pixels:450
 lightbox max height in pixels:550
 I want to keep hd images in html/hd folder yes/no:no
+I want to make only thumbnails and album previews yes/no:no

@@ -13,6 +13,7 @@ line_num=0
 max_thumb_pixel_dimensions = 0
 max_lightbox_pixel_height = 0
 keep_hds = 0
+only_thumbnails = "no"
 edit_me=File.open('edit_me.txt').read
 edit_me.gsub!(/\r\n?/, "\n")
 edit_me.each_line do |line|
@@ -40,6 +41,9 @@ edit_me.each_line do |line|
 	if (line.split(":").first == "I want to keep hd images in html/hd folder yes/no") then
 		keep_hds = line.split(":").last.split(/\n/).first
 	end
+	if (line.split(":").first == "I want to make only thumbnails and album previews yes/no") then
+		only_thumbnails = line.split(":").last.split(/\n/).first
+	end
 end
 
 class MyConfig
@@ -61,7 +65,7 @@ end
 
 class Html
 	def create_index_page
-		pagefile = File.new("index.html", "w+")
+		pagefile = File.new("index1.html", "w+")
 		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body>"
 		pagefile.close
 	end
@@ -280,8 +284,10 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 						end
 						if (prop < 1.7777777777) then
 							avg_clasificated_color = image_color.classificate_the_color(image_color.rgb_to_hsv(image_color.avg_from_image(image_address)))
-							FileUtils::mkdir_p "#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split('/').last).first}"
-							FileUtils::mkdir_p "#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}"
+							FileUtils::mkdir_p "#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split('/').last).first}"			
+							if (only_thumbnails == "no") then
+								FileUtils::mkdir_p "#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}"
+							end
 							FileUtils::mkdir_p "#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}"
 							if (image_address.split(/\./).last != "gif") then
 								image = Magick::Image::read(image_address).first
@@ -293,17 +299,19 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 								thumb_address = "thumbnails#{image_address}"
 							end
 							address_counter += 1
-							if (height <= max_lightbox_pixel_height) then
+							image = Magick::Image::read(image_address).first
+							preview_image = image.resize_to_fill(250,250)
+							preview_image.write ("#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
+							preview_address = "album_preview#{image_address}"
+							if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
 								FileUtils.cp(image_address,original_photo_address)
 								size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size
 							else
-								image = Magick::Image::read(image_address).first
-								preview_image = image.resize_to_fill(250,250)
-								lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
-								preview_image.write ("#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
-								lightbox_image.write ("#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
-								preview_address = "album_preview#{image_address}"
-								if (keep_hds == "yes") then
+								if (only_thumbnails == "no") then
+									lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
+									lightbox_image.write ("#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
+								end
+								if (keep_hds == "yes") and (only_thumbnails == "no") then
 									FileUtils::mkdir_p "#{Dir.pwd}/html/hd#{image_address.split(image_address.split('/').last).first}"
 									FileUtils.cp(image_address,hd_photo_address)
 									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/original#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size
@@ -407,7 +415,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 			page_counter = 2
 			page_counter2 = 2
 			photo_counter = 0
-			page_name = "index.html"
+			page_name = "index1.html"
 			page_name2 = "example.html"
 			Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 				colors_info = Hash.new(0)
@@ -519,8 +527,6 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 							if (page_counter2 == 2) then
 								if (page_counter != 3)
 									pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index#{page_counter - 1}.html\">Prev</a>"
-								else
-									pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index.html\">Prev</a>"
 								end
 							else
 								pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}.html\">Prev</a>"
@@ -551,10 +557,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 					if (album_counter == albums_num) then #the number of the albums + 1
 						pagefile = File.new(page_name, "a+")
 						previous = "index#{page_counter - 2}.html"
-						if (previous == "index1.html") or (previous == "index0.html") then
-							previous = "index.html"
-						end
-						if (page_name != "index.html") then
+						if (page_name != "index1.html") then
 							pagefile.puts "</tr></table>"
 							td_counter = 0
 							pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{previous}\">Prev</a>"
@@ -589,7 +592,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 						line1_counter = 0
 						config_file_to_chek.each_line do |line1|
 							line1_counter += 1
-							pixels_in_each << [(line1.split("*sep*")[4].to_i)*(line1.split("*sep*")[5].to_i),line1.split("*sep*")[8],line1.split("*sep*")[1]]
+							pixels_in_each << [(line1.split("*sep*")[4].to_i)*(line1.split("*sep*")[5].to_i),line1.split("*sep*")[7],line1.split("*sep*")[8],line1.split("*sep*")[1]]
 						end
 						config_file_to_chek=File.open(temp_my_config_file).read
 						config_file_to_chek.gsub!(/\r\n?/, "\n")
@@ -641,12 +644,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 						pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}.html\">Prev</a></div>"
 					end
 					if page_counter2 == 2 then
-						if page_counter == 2 then
-							pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index.html\">Prev</a></div>"
-						end
-						if page_counter > 2 then
 							pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index#{page_counter-1}.html\">Prev</a></div>"
-						end
 					end
 				end
 				pagefile2.puts "</body></html>"
@@ -658,7 +656,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 			pagefile.puts "</td>"
 			pagefile.puts "</tr></table>"
 			td_counter = 0
-			pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index.html\">Prev</a></div>"
+			pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index1.html\">Prev</a></div>"
 			pagefile.close
 		end
 	end
