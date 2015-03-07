@@ -8,6 +8,7 @@ td_counter = -1;
 pics_on_page_num = 0
 albums_num = 0
 album_preview_num = 1
+max_lightbox_pixel_height = 0
 line_num=0
 edit_me=File.open('edit_me.txt').read
 edit_me.gsub!(/\r\n?/, "\n")
@@ -18,6 +19,9 @@ edit_me.each_line do |line|
 	if (line.split(":").first == "the number of the pics in gallery on one page") then
 		pics_on_page_num = line.split(":").last.to_i + 1
 	end
+	if (line.split(":").first == "lightbox max height in pixels") then
+		max_lightbox_pixel_height = line.split(":").last.to_i
+	end
 end
 class Html
 	def create_index_page
@@ -27,7 +31,7 @@ class Html
 	end
 	def create_page(page_name,name_for_link)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
 		pagefile.close
 	end
 	def create_page_color_clasificated(page_name,base_page)
@@ -38,6 +42,16 @@ class Html
 	def create_color_list(page_name)
 		pagefile = File.new("html/#{page_name}_clasificated_by_color_PicExDG_disp_list.html", "w+")
 		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t</head>\n\t<body>"
+		pagefile.close
+	end
+	def create_main_page(name)
+		pagefile = File.new("#{name}.html", "w+")
+		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"html/themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
+		pagefile.close
+	end
+	def create_slideshow_page(name)
+		pagefile = File.new("#{name}.html", "w+")
+		pagefile.puts "<!DOCTYPE html><html><head><title>Citra homepage</title><link href=\"themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body>"
 		pagefile.close
 	end
 end
@@ -55,6 +69,34 @@ photo_counter = 0
 page_name = "index1.html"
 page_name2 = "example.html"
 Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
+	if my_config_file.split(/\//).last == "PicExDGAllImgs.txt" then
+		Html.new.create_main_page("index")
+		main_pagefile = File.new("index.html", "a+")
+	else
+		Html.new.create_slideshow_page("html/#{my_config_file.split(/\//).last.split(/\./).first}_slideshow_Citra_David_Konstantin_4337387520121220_page")
+		main_pagefile = File.new("html/#{my_config_file.split(/\//).last.split(/\./).first}_slideshow_Citra_David_Konstantin_4337387520121220_page.html", "a+")
+		main_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file.split(/\//).last.split(/\./).first}.html\">Prev</a><div id=\"buttons\"><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
+	end
+	text=File.open(my_config_file).read
+	text.gsub!(/\r\n?/, "\n")
+	text.each_line do |line|
+		if my_config_file.split(/\//).last == "PicExDGAllImgs.txt" then
+			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+				main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			else
+				main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			end
+		else
+			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+				main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			else
+				main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			end
+		end
+	end
+	main_pagefile.puts "</div></div></div></body></html>"
+	main_pagefile.close
+	
 	colors_info = Hash.new(0)
 	page_counter2 = 2
 	i = 0
@@ -286,6 +328,7 @@ Dir.glob("#{Dir.pwd}/config/*.txt") do |my_config_file|
 	end
 	pagefile2.puts "</body></html>"
 	pagefile2.close
+	photo_counter = 0
 end
 
 pagefile = File.new(page_name, "a+")

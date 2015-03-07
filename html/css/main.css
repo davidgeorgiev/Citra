@@ -58,6 +58,23 @@ body
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
 }
+.main_page
+{
+	background-color: #F8F1E9;
+	text-align: center;
+	margin-left: 10%;
+	margin-right: 10%;
+	border: 1px solid #D8C8B8;
+	border-radius: 13px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	font-size: 16px;
+	color:#c7b29a;
+	font-family: "Verdana", Geneva, sans-serif;
+}
+
 .index_album img
 {
 	width:80%;
@@ -129,6 +146,15 @@ a:active {
 	background-color: #F8F1E9;
 	text-align: center;
 	padding: 1%;
+	border: 1px solid #D8C8B8;
+	border-radius: 13px;
+}
+#top_button
+{
+	background-color: #F8F1E9;
+	text-align: center;
+	padding: 1%;
+	margin-left: 2%;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
 }
