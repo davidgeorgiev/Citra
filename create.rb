@@ -160,6 +160,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		Html.new.create_slideshow_page("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow")
 		slideshow_pagefile = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow.html", "a+")
 		slideshow_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\">Prev</a><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
+		slideshow_pagefile.close
 		td_color_list_page_counter += 1
 		if td_color_list_page_counter == 4 then
 			color_list_page.puts "</tr><tr>"
@@ -189,7 +190,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if page_counter_with_that_color[color_from_current_line] == 1 then
 			page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}.html", "a+")
 		else
-				page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]}.html", "a+")
+			page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]}.html", "a+")
 		end
 		if photo_counter_with_that_color[color_from_current_line] == 1 then
 			page_with_images_in_current_color.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html\">Go to the slideshow</a></div>"
@@ -206,6 +207,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		else
 			color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
 		end
+		color_page_slideshow.close
 		tumbs_color_page[color_from_current_line] += ["#{line.split("*sep*")[7]}"]
 		if (photo_counter_with_that_color[color_from_current_line] <= pics_on_page_num-1) then
 			random = Random.rand(2)
@@ -227,21 +229,21 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 					page_counter_with_that_color[color_from_current_line] += 1
 				end
 				photo_counter_with_that_color[color_from_current_line] = 0
-			else
-				if photo_counter_with_that_color_sumed[color_from_current_line] == colors_info[color_from_current_line]
-					page_with_images_in_current_color.puts "</body></html>"
-					color_page_slideshow.puts "</div><div id=\"thumbs\">"
-					tumbs_color_page["#{color_from_current_line}"].each {|thumb_address|
-							color_page_slideshow.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
-					}
-					color_page_slideshow.puts "</div></div></div></body></html>"
-				end
+			end
+			if photo_counter_with_that_color_sumed[color_from_current_line] == colors_info[color_from_current_line]
+				page_with_images_in_current_color.puts "</body></html>"
+				color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
+				color_page_slideshow.puts "</div><div id=\"thumbs\">"
+				tumbs_color_page["#{color_from_current_line}"].each {|thumb_address|
+						color_page_slideshow.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
+				}
+				color_page_slideshow.puts "</div></div></div></body></html>"
+				color_page_slideshow.close
 			end
 			photo_counter_with_that_color[color_from_current_line] += 1
 			photo_counter_with_that_color_sumed[color_from_current_line] += 1
 		end
 		page_with_images_in_current_color.close
-		color_page_slideshow.close
 		if (photo_counter == pics_on_page_num) then #the number of the pics in gallery + 1
 			pagefile2.puts "\t\t</div>"
 			if ((page_counter2 != 3) and (page_counter2 != 2)) then
