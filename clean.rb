@@ -19,13 +19,13 @@ Dir.glob("#{Dir.pwd}/*.html") do |html_address|
 		FileUtils.rm(html_address)
 	end
 end
-Dir.glob("#{Dir.pwd}/config/*.txt") do |config_address|
+Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |config_address|
 	if File.file?(config_address) then
 		FileUtils.rm(config_address)
 	end
 end
-if File.file?("all_addresses.txt") then
-		FileUtils.rm("all_addresses.txt")
+if File.file?("all_addresses.citra_config_file_23987") then
+		FileUtils.rm("all_addresses.citra_config_file_23987")
 end
 Dir.glob("#{Dir.pwd}/*~") do |config_address|
 	if File.file?(config_address) then

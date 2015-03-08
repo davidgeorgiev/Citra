@@ -12,7 +12,7 @@ max_thumb_pixel_dimensions = 0
 max_lightbox_pixel_height = 0
 keep_hds = 0
 only_thumbnails = "no"
-edit_me=File.open('edit_me.txt').read
+edit_me=File.open('edit_me.citra_config_file_23987').read
 edit_me.gsub!(/\r\n?/, "\n")
 edit_me.each_line do |line|
 	if (line.split(":").first == "address to explore") then
@@ -40,16 +40,16 @@ end
 
 class MyConfig
 	def create(album)
-		configfile = File.new("config/#{album}.txt", "w+")
+		configfile = File.new("config/#{album}.citra_config_file_23987", "w+")
 		configfile.close
-		configfile = File.new("config/PicExDGAllImgs.txt", "w+")
+		configfile = File.new("config/PicExDGAllImgs.citra_config_file_23987", "w+")
 		configfile.close
 	end
 	def add(image_address,name,album,id,width,height,date,thumb_address,date_in_secs,album_preview,image_color)
-		configfile = File.new("config/#{album}.txt", "a+")
+		configfile = File.new("config/#{album}.citra_config_file_23987", "a+")
 		configfile.puts "#{image_address}*sep*#{name}*sep*#{album}*sep*#{id}*sep*#{width}*sep*#{height}*sep*#{date}*sep*#{date_in_secs}*sep*#{thumb_address}*sep*#{album_preview}*sep*#{image_color}"
 		configfile.close
-		configfile = File.new("config/PicExDGAllImgs.txt", "a+")
+		configfile = File.new("config/PicExDGAllImgs.citra_config_file_23987", "a+")
 		configfile.puts "#{image_address}*sep*#{name}*sep*#{album}*sep*#{id}*sep*#{width}*sep*#{height}*sep*#{date}*sep*#{date_in_secs}*sep*#{thumb_address}*sep*#{album_preview}*sep*#{image_color}"
 		configfile.close
 	end
@@ -377,6 +377,6 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 		end
 	end
 end
-all_addresses_file = File.new("all_addresses.txt", "w+")
+all_addresses_file = File.new("all_addresses.citra_config_file_23987", "w+")
 all_addresses_file.puts "#{all_addresses}"
 all_addresses_file.close
