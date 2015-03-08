@@ -68,8 +68,8 @@ body
 {
 	background-color: #F8F1E9;
 	text-align: center;
-	margin-left: 10%;
-	margin-right: 10%;
+	width:760px;
+	margin:0 auto;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
 	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));

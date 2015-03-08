@@ -51,12 +51,12 @@ class Html
 	end
 	def create_main_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"html/themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
+		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"html/themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
 		pagefile.close
 	end
 	def create_slideshow_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"themes/1/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/1/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
+		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
 		pagefile.close
 	end
 end
@@ -88,6 +88,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	end
 	text=File.open(my_config_file).read
 	text.gsub!(/\r\n?/, "\n")
+	tumbs_array = Array.new
 	text.each_line do |line|
 		if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
 			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
@@ -95,15 +96,24 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 			else
 				main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 			end
+			tumbs_array << "html/#{line.split("*sep*")[7]}"
 		else
 			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
 				main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 			else
 				main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 			end
+			tumbs_array << "#{line.split("*sep*")[7]}"
 		end
 	end
-	main_pagefile.puts "</div></div></div></body></html>"
+	main_pagefile.puts "</div>"
+	main_pagefile.puts "<div id=\"thumbs\">"
+	tumbs_array.each do |thumb_address|
+		main_pagefile.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
+	end
+	tumbs_array.clear
+	main_pagefile.puts "</div>"
+	main_pagefile.puts "</div></div></body></html>"
 	main_pagefile.close
 	
 	colors_info = Hash.new(0)
@@ -172,15 +182,17 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	page_counter_with_that_color = Hash.new(1)
 	photo_counter_with_that_color = Hash.new(1)
 	photo_counter_with_that_color_sumed = Hash.new(1)
+	tumbs_color_page = Hash.new(Array.new)
 	text.each_line do |line|
+		color_from_current_line = line.split("*sep*")[9]
 		photo_counter = photo_counter + 1
-		if page_counter_with_that_color[line.split("*sep*")[9]] == 1 then
-			page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}.html", "a+")
+		if page_counter_with_that_color[color_from_current_line] == 1 then
+			page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}.html", "a+")
 		else
-				page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]}.html", "a+")
+				page_with_images_in_current_color = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]}.html", "a+")
 		end
-		if photo_counter_with_that_color[line.split("*sep*")[9]] == 1 then
-			page_with_images_in_current_color.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}_slideshow.html\">Go to the slideshow</a></div>"
+		if photo_counter_with_that_color[color_from_current_line] == 1 then
+			page_with_images_in_current_color.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html\">Go to the slideshow</a></div>"
 			random = Random.rand(5)
 			if (random == 1) then
 				page_with_images_in_current_color.puts "\t\t<div class = \"album2\">"
@@ -188,42 +200,48 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				page_with_images_in_current_color.puts "\t\t<div class = \"album\">"
 			end	
 		end
-		color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}_slideshow.html","a+")
+		color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
 		if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
-			color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
 		else
-			color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
 		end
-		if (photo_counter_with_that_color[line.split("*sep*")[9]] <= pics_on_page_num-1) then
+		tumbs_color_page[color_from_current_line] += ["#{line.split("*sep*")[7]}"]
+		if (photo_counter_with_that_color[color_from_current_line] <= pics_on_page_num-1) then
 			random = Random.rand(2)
 			if (random == 1) then
 				page_with_images_in_current_color.puts "\t\t\t#{line.split("*sep*")[6].split(" ").first}<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>"
 			else
 				page_with_images_in_current_color.puts "\t\t\t<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>#{line.split("*sep*")[6].split(" ").first}"
 			end
-			if photo_counter_with_that_color[line.split("*sep*")[9]] == pics_on_page_num-1 then
+			if photo_counter_with_that_color[color_from_current_line] == pics_on_page_num-1 then
 				page_with_images_in_current_color.puts "\t\t</div>"
-				if page_counter_with_that_color[line.split("*sep*")[9]]*photo_counter_with_that_color[line.split("*sep*")[9]] < colors_info[line.split("*sep*")[9]] then
-					page_with_images_in_current_color.puts "<a id = \"next_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]+1}.html\">Next</a></div>"
+				if page_counter_with_that_color[color_from_current_line]*photo_counter_with_that_color[color_from_current_line] < colors_info[color_from_current_line] then
+					page_with_images_in_current_color.puts "<a id = \"next_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]+1}.html\">Next</a></div>"
 					page_with_images_in_current_color.puts "</body></html>"
-					if page_counter_with_that_color[line.split("*sep*")[9]] == 1 then
-						Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]+1}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}")
+					if page_counter_with_that_color[color_from_current_line] == 1 then
+						Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]+1}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}")
 					else
-						Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]+1}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{line.split("*sep*")[9]}#{page_counter_with_that_color[line.split("*sep*")[9]]}")
+						Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]+1}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}#{page_counter_with_that_color[color_from_current_line]}")
 					end
-					page_counter_with_that_color[line.split("*sep*")[9]] += 1
+					page_counter_with_that_color[color_from_current_line] += 1
 				end
-				photo_counter_with_that_color[line.split("*sep*")[9]] = 0
+				photo_counter_with_that_color[color_from_current_line] = 0
 			else
-				if photo_counter_with_that_color_sumed[line.split("*sep*")[9]] == colors_info[line.split("*sep*")[9]]
+				if photo_counter_with_that_color_sumed[color_from_current_line] == colors_info[color_from_current_line]
 					page_with_images_in_current_color.puts "</body></html>"
-					#color_page_slideshow.puts "</div></div></div></body></html>"
+					color_page_slideshow.puts "</div><div id=\"thumbs\">"
+					tumbs_color_page["#{color_from_current_line}"].each {|thumb_address|
+							color_page_slideshow.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
+					}
+					color_page_slideshow.puts "</div></div></div></body></html>"
 				end
 			end
-			photo_counter_with_that_color[line.split("*sep*")[9]] += 1
-			photo_counter_with_that_color_sumed[line.split("*sep*")[9]] += 1
+			photo_counter_with_that_color[color_from_current_line] += 1
+			photo_counter_with_that_color_sumed[color_from_current_line] += 1
 		end
 		page_with_images_in_current_color.close
+		color_page_slideshow.close
 		if (photo_counter == pics_on_page_num) then #the number of the pics in gallery + 1
 			pagefile2.puts "\t\t</div>"
 			if ((page_counter2 != 3) and (page_counter2 != 2)) then

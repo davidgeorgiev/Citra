@@ -15,7 +15,6 @@
 #slider, #slider div.sliderInner {
     width:700px;height:500px;/* Must be the same size as the slider images */
 }
-
 #slider {
 	background:#fff url(loading.gif) no-repeat 50% 50%;
 	position:relative;
