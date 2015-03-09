@@ -9,7 +9,7 @@ pics_on_page_num = 0
 albums_num = 0
 album_preview_num = 1
 max_lightbox_pixel_height = 0
-only_photos_with_suitable_dimentions = "no"
+only_photos_with_suitable_dimenssions = "no"
 line_num=0
 edit_me=File.open('edit_me.citra_config_file_23987').read
 edit_me.gsub!(/\r\n?/, "\n")
@@ -23,8 +23,8 @@ edit_me.each_line do |line|
 	if (line.split(":").first == "lightbox max height in pixels") then
 		max_lightbox_pixel_height = line.split(":").last.to_i
 	end
-	if (line.split(":").first == "only photos whith suitable dimentions in slideshows yes/no") then
-		only_photos_with_suitable_dimentions = line.split(":").last.split(/\n/).first
+	if (line.split(":").first == "only photos whith suitable dimenssions in slideshows yes/no") then
+		only_photos_with_suitable_dimenssions = line.split(":").last.split(/\n/).first
 	end
 	
 end
@@ -95,7 +95,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	text.gsub!(/\r\n?/, "\n")
 	tumbs_array = Array.new
 	text.each_line do |line|
-		if only_photos_with_suitable_dimentions == "yes" then
+		if only_photos_with_suitable_dimenssions == "yes" then
 			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
 				if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
 					if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
@@ -230,7 +230,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				page_with_images_in_current_color.puts "\t\t<div class = \"album\">"
 			end	
 		end
-		if only_photos_with_suitable_dimentions == "yes" then
+		if only_photos_with_suitable_dimenssions == "yes" then
 			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
 				color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
 				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
