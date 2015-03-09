@@ -11,6 +11,9 @@ end
 if File.directory?("html/thumbnails") then
 	FileUtils.rm_rf("html/thumbnails")
 end
+if File.directory?("html/mini_thumbs") then
+	FileUtils.rm_rf("html/mini_thumbs")
+end
 Dir.glob("#{Dir.pwd}/**/*.html") do |html_address|
 	if File.file?(html_address) then
 		FileUtils.rm(html_address)
