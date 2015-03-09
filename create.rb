@@ -109,7 +109,11 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	main_pagefile.puts "</div>"
 	main_pagefile.puts "<div id=\"thumbs\">"
 	tumbs_array.each do |thumb_address|
-		main_pagefile.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
+		if thumb_address.split("/").first == "html" then
+			main_pagefile.puts "<div class=\"thumb\"><img src=\"html/mini_thumbs/#{thumb_address.split("album_preview/").last}\" /></div>\n"
+		else
+			main_pagefile.puts "<div class=\"thumb\"><img src=\"mini_thumbs/#{thumb_address.split("album_preview/").last}\" /></div>\n"
+		end
 	end
 	tumbs_array.clear
 	main_pagefile.puts "</div>"
@@ -235,7 +239,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
 				color_page_slideshow.puts "</div><div id=\"thumbs\">"
 				tumbs_color_page["#{color_from_current_line}"].each {|thumb_address|
-						color_page_slideshow.puts "<div class=\"thumb\"><img src=\"#{thumb_address}\" /></div>\n"
+						color_page_slideshow.puts "<div class=\"thumb\"><img src=\"mini_thumbs/#{thumb_address.split("album_preview/").last}\" /></div>\n"
 				}
 				color_page_slideshow.puts "</div></div></div></body></html>"
 				color_page_slideshow.close

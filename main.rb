@@ -259,6 +259,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 								FileUtils::mkdir_p "#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}"
 							end
 							FileUtils::mkdir_p "#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}"
+							FileUtils::mkdir_p "#{Dir.pwd}/html/mini_thumbs#{image_address.split(image_address.split('/').last).first}"
 							if (image_address.split(/\./).last != "gif") then
 								image = Magick::Image::read(image_address).first
 								thumb = image.resize_to_fit!(max_thumb_pixel_dimensions)
@@ -271,7 +272,9 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 							address_counter += 1
 							image = Magick::Image::read(image_address).first
 							preview_image = image.resize_to_fill(250,250)
+							mini_thumb = image.resize_to_fill(72,72)
 							preview_image.write ("#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
+							mini_thumb.write ("#{Dir.pwd}/html/mini_thumbs#{image_address.split(image_address.split('/').last).first}#{image_address.split("/").last}")
 							preview_address = "album_preview#{image_address}"
 							if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
 								FileUtils.cp(image_address,original_photo_address)
@@ -284,9 +287,9 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 								if (keep_hds == "yes") and (only_thumbnails == "no") then
 									FileUtils::mkdir_p "#{Dir.pwd}/html/hd#{image_address.split(image_address.split('/').last).first}"
 									FileUtils.cp(image_address,hd_photo_address)
-									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/original#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size
+									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/original#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
 								else
-									size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size
+									size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
 								end
 								
 							end
