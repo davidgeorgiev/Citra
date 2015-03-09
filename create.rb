@@ -9,6 +9,7 @@ pics_on_page_num = 0
 albums_num = 0
 album_preview_num = 1
 max_lightbox_pixel_height = 0
+only_photos_with_suitable_dimentions = "no"
 line_num=0
 edit_me=File.open('edit_me.citra_config_file_23987').read
 edit_me.gsub!(/\r\n?/, "\n")
@@ -22,41 +23,45 @@ edit_me.each_line do |line|
 	if (line.split(":").first == "lightbox max height in pixels") then
 		max_lightbox_pixel_height = line.split(":").last.to_i
 	end
+	if (line.split(":").first == "only photos whith suitable dimentions in slideshows yes/no") then
+		only_photos_with_suitable_dimentions = line.split(":").last.split(/\n/).first
+	end
+	
 end
 class Html
 	def create_index_page
-		pagefile = File.new("index1.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
+		pagefile = File.new("index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html", "w+")
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
 		pagefile.close
 	end
 	def create_page(page_name,name_for_link)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
 		pagefile.close
 	end
 	def create_PicExDGAllImgs_page(page_name,name_for_link)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"../index.html\">Go to the slideshow</a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"../index.html\">Go to the slideshow</a></div>"
 		pagefile.close
 	end
 	def create_page_color_clasificated(page_name,base_page)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"previous_b\" href = \"#{base_page}.html\">Prev</a>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"previous_b\" href = \"#{base_page}.html\">Prev</a>"
 		pagefile.close
 	end
 	def create_color_list(page_name)
 		pagefile = File.new("html/#{page_name}_clasificated_by_color_PicExDG_disp_list.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
 		pagefile.close
 	end
 	def create_main_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"html/themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
+		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"html/themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"html/css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"html/themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">"
 		pagefile.close
 	end
 	def create_slideshow_page(name)
 		pagefile = File.new("#{name}.html", "w+")
-		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"../index1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
+		pagefile.puts "<!DOCTYPE html><html><head><meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\"><title>Citra homepage</title><link href=\"themes/5/js-image-slider.css\" rel=\"stylesheet\" type=\"text/css\" /><link href=\"css/main.css\" rel=\"stylesheet\" type=\"text/css\" /><script src=\"themes/5/js-image-slider.js\" type=\"text/javascript\"></script><link href=\"generic.css\" rel=\"stylesheet\" type=\"text/css\" /></head><body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div>"
 		pagefile.close
 	end
 end
@@ -75,7 +80,7 @@ album_counter = 0
 page_counter = 2
 page_counter2 = 2
 photo_counter = 0
-page_name = "index1.html"
+page_name = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html"
 page_name2 = "example.html"
 Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
@@ -84,26 +89,46 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	else
 		Html.new.create_slideshow_page("html/#{my_config_file.split(/\//).last.split(".citra_config_file_23987").first}_slideshow_Citra_David_Konstantin_4337387520121220_page")
 		main_pagefile = File.new("html/#{my_config_file.split(/\//).last.split(".citra_config_file_23987").first}_slideshow_Citra_David_Konstantin_4337387520121220_page.html", "a+")
-		main_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file.split(/\//).last.split(".citra_config_file_23987").first}.html\">Prev</a><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
+		main_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file.split(/\//).last.split(".citra_config_file_23987").first}.html\">Prev</a><a id = \"nextprevious\" href = \"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
 	end
 	text=File.open(my_config_file).read
 	text.gsub!(/\r\n?/, "\n")
 	tumbs_array = Array.new
 	text.each_line do |line|
-		if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
-			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
-				main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
-			else
-				main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+		if only_photos_with_suitable_dimentions == "yes" then
+			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
+				if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
+					if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+						main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+					else
+						main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+					end
+					tumbs_array << "html/#{line.split("*sep*")[7]}"
+				else
+					if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+						main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+					else
+						main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+					end
+					tumbs_array << "#{line.split("*sep*")[7]}"
+				end
 			end
-			tumbs_array << "html/#{line.split("*sep*")[7]}"
 		else
-			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
-				main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+			if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
+				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+					main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+				else
+					main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+				end
+				tumbs_array << "html/#{line.split("*sep*")[7]}"
 			else
-				main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+					main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+				else
+					main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
+				end
+				tumbs_array << "#{line.split("*sep*")[7]}"
 			end
-			tumbs_array << "#{line.split("*sep*")[7]}"
 		end
 	end
 	main_pagefile.puts "</div>"
@@ -163,7 +188,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list")
 		Html.new.create_slideshow_page("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow")
 		slideshow_pagefile = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow.html", "a+")
-		slideshow_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\">Prev</a><a id = \"nextprevious\" href = \"../index1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
+		slideshow_pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\">Prev</a><a id = \"nextprevious\" href = \"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\">Go to main gallery</a></div><div class = \"main_page\"><div id=\"sliderFrame\"><div id=\"slider\">\n"
 		slideshow_pagefile.close
 		td_color_list_page_counter += 1
 		if td_color_list_page_counter == 4 then
@@ -205,14 +230,27 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				page_with_images_in_current_color.puts "\t\t<div class = \"album\">"
 			end	
 		end
-		color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
-		if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
-			color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+		if only_photos_with_suitable_dimentions == "yes" then
+			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
+				color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
+				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+							color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+				else
+					color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+				end
+				color_page_slideshow.close
+				tumbs_color_page[color_from_current_line] += ["#{line.split("*sep*")[7]}"]
+			end
 		else
-			color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+			color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
+			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+						color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+			else
+				color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
+			end
+			color_page_slideshow.close
+			tumbs_color_page[color_from_current_line] += ["#{line.split("*sep*")[7]}"]
 		end
-		color_page_slideshow.close
-		tumbs_color_page[color_from_current_line] += ["#{line.split("*sep*")[7]}"]
 		if (photo_counter_with_that_color[color_from_current_line] <= pics_on_page_num-1) then
 			random = Random.rand(2)
 			if (random == 1) then
@@ -251,21 +289,21 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if (photo_counter == pics_on_page_num) then #the number of the pics in gallery + 1
 			pagefile2.puts "\t\t</div>"
 			if ((page_counter2 != 3) and (page_counter2 != 2)) then
-				pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}#{page_counter2-2}.html\">Prev</a>"
+				pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter2-2}.html\">Prev</a>"
 			else
 				if (page_counter2 == 2) then
 					if (page_counter != 3)
-						pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index#{page_counter - 1}.html\">Prev</a>"
+						pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter - 1}.html\">Prev</a>"
 					end
 				else
 					pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}.html\">Prev</a>"
 				end
 			end
-			pagefile2.puts "<a id = \"next_b\" href = \"#{my_config_file}#{page_counter2}.html\">Next</a></div>"
+			pagefile2.puts "<a id = \"next_b\" href = \"#{my_config_file}_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter2}.html\">Next</a></div>"
 			pagefile2.puts "</body></html>"
 			pagefile2.close
-			Html.new.create_page("#{my_config_file}#{page_counter2}","#{my_config_file}")
-			page_name2 = "#{my_config_file}#{page_counter2}.html"
+			Html.new.create_page("#{my_config_file}_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter2}","#{my_config_file}")
+			page_name2 = "#{my_config_file}_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter2}.html"
 			pagefile2 = File.new("html/#{page_name2}", "a+")
 			pagefile2.puts "\t\t<div class = \"album\">"
 			photo_counter = 1
@@ -285,8 +323,8 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		i = i + 1
 		if (album_counter == albums_num) then #the number of the albums + 1
 			pagefile = File.new(page_name, "a+")
-			previous = "index#{page_counter - 2}.html"
-			if (page_name != "index1.html") then
+			previous = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter - 2}.html"
+			if (page_name != "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html") then
 				pagefile.puts "</tr></table>"
 				td_counter = 0
 				pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{previous}\">Prev</a>"
@@ -295,11 +333,11 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				td_counter = 0
 				pagefile.puts "<div id=\"buttons\">"
 			end
-			page_name = "index#{page_counter}.html"
+			page_name = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter}.html"
 			pagefile.puts "<a id = \"next_b\" href = \"#{page_name}\">Next</a></div>"
 			pagefile.close
 			pagefile = File.new(page_name, "w+")
-			pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
+			pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
 			album_counter = 1
 			page_counter = page_counter + 1
 			pagefile.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"html/PicExDGAllImgs.html\">All photos in gallery</a></div>"
@@ -367,13 +405,13 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	end
 	pagefile2.puts "\t\t</div>"
 	if (page_counter2 - 2 > 1) then
-		pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}#{page_counter2 - 2}.html\">Prev</a></div>"
+		pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter2 - 2}.html\">Prev</a></div>"
 	else
 		if page_counter2 == 3 then
 			pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"#{my_config_file}.html\">Prev</a></div>"
 		end
 		if page_counter2 == 2 then
-				pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index#{page_counter-1}.html\">Prev</a></div>"
+				pagefile2.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter-1}.html\">Prev</a></div>"
 		end
 	end
 	pagefile2.puts "</body></html>"
@@ -386,5 +424,5 @@ pagefile.puts "</p></a></div>"
 pagefile.puts "</td>"
 pagefile.puts "</tr></table>"
 td_counter = 0
-pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index1.html\">Prev</a></div>"
+pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\">Prev</a></div>"
 pagefile.close
