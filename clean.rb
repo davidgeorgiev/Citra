@@ -32,3 +32,6 @@ Dir.glob("#{Dir.pwd}/*~") do |config_address|
 		FileUtils.rm(config_address)
 	end
 end
+if File.directory?("last_update") then
+	FileUtils.rm_rf("last_update")
+end
