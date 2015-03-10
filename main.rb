@@ -283,9 +283,6 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 							if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
 								FileUtils.cp(image_address,original_photo_address)
 								size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
-								if (keep_hds == "yes") then
-									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size
-								end
 							else
 								if (only_thumbnails == "no") then
 									lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
