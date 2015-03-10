@@ -5,13 +5,14 @@ require_relative 'color.rb'
 
 album_preview_num = 1
 addr_to_explr = "address"
-min_size = 0;
+min_size = 1;
 lim_prop = "no"
 line_num=0
-max_thumb_pixel_dimensions = 0
-max_lightbox_pixel_height = 0
-keep_hds = 0
+max_thumb_pixel_dimensions = 450
+max_lightbox_pixel_height = 500
+keep_hds = "yes"
 only_thumbnails = "no"
+proportion_const_by_user = 1.7777777777
 edit_me=File.open('edit_me.citra_config_file_23987').read
 edit_me.gsub!(/\r\n?/, "\n")
 edit_me.each_line do |line|
@@ -35,6 +36,9 @@ edit_me.each_line do |line|
 	end
 	if (line.split(":").first == "I want to make only thumbnails and album previews yes/no") then
 		only_thumbnails = line.split(":").last.split(/\n/).first
+	end
+	if (line.split(":").first == "proportion const is") then
+		proportion_const_by_user = line.split(":").last.to_f
 	end
 end
 
@@ -94,7 +98,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 				width = 0
 				height = 0
 			end
-			if (((width >= min_size) or (height >= min_size))) and (prop < 1.7777777777) then
+			if (((width >= min_size) or (height >= min_size))) and (prop < proportion_const_by_user) then
 				all_addresses += 1
 			end
 			if ((width >= min_size) or (height >= min_size)) then
@@ -106,7 +110,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 					end
 				end
 			end
-			if (prop < 1.7777777777) then
+			if (prop < proportion_const_by_user) then
 				size_of_images += File.new(image_address).size
 				sum_of_all_pixels_of_all_images += (width*height)
 				all_picture_counter += 1
@@ -252,7 +256,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 								prop = height/width
 							end
 						end
-						if (prop < 1.7777777777) then
+						if (prop < proportion_const_by_user) then
 							avg_clasificated_color = image_color.classificate_the_color(image_color.rgb_to_hsv(image_color.avg_from_image(image_address)))
 							FileUtils::mkdir_p "#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split('/').last).first}"			
 							if (only_thumbnails == "no") then
@@ -278,7 +282,10 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 							preview_address = "album_preview#{image_address}"
 							if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
 								FileUtils.cp(image_address,original_photo_address)
-								size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size
+								size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
+								if (keep_hds == "yes") then
+									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size
+								end
 							else
 								if (only_thumbnails == "no") then
 									lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
@@ -289,7 +296,9 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 									FileUtils.cp(image_address,hd_photo_address)
 									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{image_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/original#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
 								else
-									size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
+									if only_thumbnails == "yes" then
+										size_of_part = size_of_part+File.new("#{Dir.pwd}/html/thumbnails#{image_address}").size+File.new("#{Dir.pwd}/html/album_preview#{image_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{image_address}").size
+									end
 								end
 								
 							end
