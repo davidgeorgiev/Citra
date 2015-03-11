@@ -63,6 +63,7 @@ body
 	font-size: 16px;
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
+	width:230px;
 }
 .main_page
 {
@@ -214,8 +215,8 @@ a:active {
 }
 td
 {
-	min-width:50%;
-	min-height:50%;
+	width:230px;
+	height:240px;
 }
 tr
 {

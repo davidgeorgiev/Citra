@@ -10,6 +10,7 @@ albums_num = 0
 album_preview_num = 1
 max_lightbox_pixel_height = 0
 only_photos_with_suitable_dimenssions = "no"
+keep_hds = "yes"
 line_num=0
 edit_me=File.open('edit_me.citra_config_file_23987').read
 edit_me.gsub!(/\r\n?/, "\n")
@@ -26,7 +27,9 @@ edit_me.each_line do |line|
 	if (line.split(":").first == "only photos whith suitable dimenssions in slideshows yes/no") then
 		only_photos_with_suitable_dimenssions = line.split(":").last.split(/\n/).first
 	end
-	
+	if (line.split(":").first == "I want to keep hd images in html/hd folder yes/no") then
+		keep_hds = line.split(":").last.split(/\n/).first
+	end
 end
 class Html
 	def create_index_page
@@ -36,7 +39,13 @@ class Html
 	end
 	def create_page(page_name,name_for_link)
 		pagefile = File.new("html/#{page_name}.html", "w+")
-		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a><a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a></div>"
+		pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">\n\t\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"lightbox/lightbox.css\" media=\"screen\" /><script type=\"text/javascript\" src=\"lightbox/lightbox.js\"></script></head>\n\t<body><div id=\"logo\"><a href=\"../index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"logo.png\"/></a></div><div id=\"buttons\"><a id = \"nextprevious\" href = \"#{name_for_link}_clasificated_by_color_PicExDG_disp_list.html\">Clasificated by color</a>"
+		if name_for_link != "PicExDGAllImgs" then
+			pagefile.puts "<a id = \"top_button\" href = \"#{name_for_link}_slideshow_Citra_David_Konstantin_4337387520121220_page.html\">Go to the slideshow</a>"
+		else
+			pagefile.puts "<a id = \"top_button\" href = \"../index.html\">Go to the slideshow</a>"
+		end
+		pagefile.puts "</div>"
 		pagefile.close
 	end
 	def create_PicExDGAllImgs_page(page_name,name_for_link)
@@ -82,6 +91,7 @@ page_counter2 = 2
 photo_counter = 0
 page_name = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html"
 page_name2 = "example.html"
+my_config_file_prev_name = String.new
 Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
 		Html.new.create_main_page("index")
@@ -98,14 +108,14 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if only_photos_with_suitable_dimenssions == "yes" then
 			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
 				if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
-					if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+					if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 						main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 					else
 						main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 					end
 					tumbs_array << "html/#{line.split("*sep*")[7]}"
 				else
-					if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+					if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 						main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 					else
 						main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
@@ -115,14 +125,14 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 			end
 		else
 			if my_config_file.split(/\//).last == "PicExDGAllImgs.citra_config_file_23987" then
-				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+				if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 					main_pagefile.puts "<a href=\"html/#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 				else
 					main_pagefile.puts "<a href=\"html/hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"html/#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 				end
 				tumbs_array << "html/#{line.split("*sep*")[7]}"
 			else
-				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+				if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 					main_pagefile.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
 				else
 					main_pagefile.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{line.split("*sep*")[9]}]\" /></a>\n"
@@ -151,8 +161,10 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	k = 0
 	if (album_counter > 0) then
 		pagefile = File.new(page_name, "a+")
-		pagefile.puts "</p></a></div>"
-		pagefile.puts "</td>"
+		if my_config_file_prev_name != "PicExDGAllImgs" then
+			pagefile.puts "</p></a></div>"
+			pagefile.puts "</td>"
+		end
 		if td_counter == 3 then
 			pagefile.puts "</tr><tr>"
 		end
@@ -184,7 +196,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	color_list_page.puts "<table><tr>"
 	td_color_list_page_counter = 0
 	colors_info.each do |color,number|
-		color_list_page.puts "<td><div class = \"index_album\"><a href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\" ><p id = \"title\">#{color}: [#{number} photos]</p><p><img src=\"colors/#{color}.jpg\" alt=\"#{color}\" id=\"index_photo\"/></p></a></div></td>"
+		color_list_page.puts "<td><div class = \"index_album\"><a href = \"#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}.html\" ><p id = \"title\">#{color} <br>[#{number} photos]</br></p><p><img src=\"colors/#{color}.jpg\" alt=\"#{color}\" id=\"index_photo\"/></p></a></div></td>"
 		Html.new.create_page_color_clasificated("#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}","#{my_config_file}_clasificated_by_color_PicExDG_disp_list")
 		Html.new.create_slideshow_page("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow")
 		slideshow_pagefile = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color}_slideshow.html", "a+")
@@ -213,6 +225,12 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	photo_counter_with_that_color = Hash.new(1)
 	photo_counter_with_that_color_sumed = Hash.new(1)
 	tumbs_color_page = Hash.new(Array.new)
+	if my_config_file.split(/\//).last == "PicExDGAllImgs" then
+		album_counter = album_counter - 1
+		if td_counter > 2 then
+			td_counter = td_counter - 1
+		end
+	end
 	text.each_line do |line|
 		color_from_current_line = line.split("*sep*")[9]
 		photo_counter = photo_counter + 1
@@ -233,7 +251,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if only_photos_with_suitable_dimenssions == "yes" then
 			if (line.split("*sep*")[4].to_i >= 700) and (line.split("*sep*")[5].to_i >= 500) then
 				color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
-				if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+				if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 							color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
 				else
 					color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
@@ -243,7 +261,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 			end
 		else
 			color_page_slideshow = File.new("html/#{my_config_file}_clasificated_by_color_PicExDG_disp_list_#{color_from_current_line}_slideshow.html","a+")
-			if line.split("*sep*")[5].to_i <= max_lightbox_pixel_height then
+			if (line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no") then
 						color_page_slideshow.puts "<a href=\"#{line.split("*sep*")[0]}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
 			else
 				color_page_slideshow.puts "<a href=\"hd/#{line.split("*sep*")[0].split("original/").last}\" target=\"blank\"><img src=\"#{line.split("*sep*")[0]}\" alt=\"#{line.split("*sep*")[1]} [#{line.split("*sep*")[2]} #{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px #{color_from_current_line}]\" /></a>\n"
@@ -324,6 +342,19 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if (album_counter == albums_num) then #the number of the albums + 1
 			pagefile = File.new(page_name, "a+")
 			previous = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter - 2}.html"
+			if album_counter < 5 then
+				album_counter_copy = album_counter
+				last_value = 0
+				while album_counter_copy > 0
+					last_value = album_counter_copy
+					album_counter_copy = album_counter_copy - 4
+				end
+				if (last_value > 0) and (last_value < 4) then
+					for i in 0..(4-last_value) do
+						pagefile.puts "<td></td>"
+					end
+				end
+			end
 			if (page_name != "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html") then
 				pagefile.puts "</tr></table>"
 				td_counter = 0
@@ -335,19 +366,20 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 			end
 			page_name = "index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter}.html"
 			pagefile.puts "<a id = \"next_b\" href = \"#{page_name}\">Next</a></div>"
+			pagefile.puts "</body></html>"
 			pagefile.close
 			pagefile = File.new(page_name, "w+")
 			pagefile.puts "<html>\n\t<head>\n\t\t<meta content=\"text/html; charset=UTF-8;\" http-equiv=\"content-type\">\n\t\t<title>\n\t\t\tPicExDG\n\t\t</title>\n\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/main.css\">\n\t</head>\n\t<body><div id=\"logo\"><a href=\"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\" target=\"blank\"><img src=\"html/logo.png\"/></a></div>"
 			album_counter = 1
 			page_counter = page_counter + 1
-			pagefile.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"html/PicExDGAllImgs.html\">All photos in gallery</a></div>"
+			pagefile.puts "<div id=\"buttons\"><a id = \"nextprevious\" href = \"html/PicExDGAllImgs.html\">All photos in gallery [#{all_addresses} photos]</a></div>"
 			pagefile.puts "<table><tr>"
 			pagefile.close
 		end
-		if (i == 1) then
+		if (i == 1) and (my_config_file.split(/\//).last != "PicExDGAllImgs") then
 			pagefile = File.new(page_name, "a+")
 			pagefile.puts "<td>"
-			pagefile.puts "<div class = \"index_album\"><a href = \"html/#{line.split("*sep*")[2]}.html\" ><p id = \"title\">#{line.split("*sep*")[2]}: [#{k} photos]</p><p>"
+			pagefile.puts "<div class = \"index_album\"><a href = \"html/#{line.split("*sep*")[2]}.html\" ><p id = \"title\">#{line.split("*sep*")[2]} <br>[#{k} photos]</br></p><p>"
 			pagefile.close
 		end
 		if (i <= album_preview_num) then #the number of the pics on album's example
@@ -385,7 +417,7 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 				temp_index_date_inc += 1
 			end
 			pixels_in_each.reverse.sort do |current_image_and_pixels|
-				if (temp_index <= album_preview_num) then
+				if (temp_index <= album_preview_num) and (my_config_file.split(/\//).last != "PicExDGAllImgs") then
 						if pixels_in_each[0][1].length > 0 then
 							pagefile.puts "<img alt=\"#{pixels_in_each[0][3]}\" id=\"index_photo\" src=\"html/#{pixels_in_each[0][1]}\" onmouseout=\"this.src=\'html/#{pixels_in_each[0][1]}\'\""
 						else
@@ -417,12 +449,27 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	pagefile2.puts "</body></html>"
 	pagefile2.close
 	photo_counter = 0
+	my_config_file_prev_name = my_config_file
 end
 
 pagefile = File.new(page_name, "a+")
 pagefile.puts "</p></a></div>"
 pagefile.puts "</td>"
+album_counter_copy = album_counter
+last_value = 0
+while album_counter_copy > 0
+	last_value = album_counter_copy
+	album_counter_copy = album_counter_copy - 4
+end
+if (last_value > 0) and (last_value < 4) then
+	for i in 0..(4-last_value) do
+		pagefile.puts "<td></td>"
+	end
+end
 pagefile.puts "</tr></table>"
 td_counter = 0
-pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_1.html\">Prev</a></div>"
+if page_counter > 2 then
+	pagefile.puts "<div id=\"buttons\"><a id = \"previous_b\" href = \"index_CiTra_David_kosio_dsflfjsdhkvhvbsklslkjdslkjg_3458574359_page_number_#{page_counter - 2}.html\">Prev</a></div>"
+end
+pagefile.puts "</body></html>"
 pagefile.close

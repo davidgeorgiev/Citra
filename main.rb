@@ -312,10 +312,16 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 			FileUtils::mkdir_p ("config")
 			
 			Dir.glob("#{addr_to_explr}/**/*.*") do |image_address|
+				if image_address.split("//").first.length < image_address.length then
+					image_address = image_address.gsub! '//', '/'
+				end
 				if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif")) and (image_address.split('/').last.split(/\./).first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
 					if MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is then
 						start = Time.now
 						changed_address = "#{image_address.split(".#{image_address.split(/\./).last}").first}_#{now_the_time_is}.#{image_address.split(/\./).last}"
+						if changed_address.split("%").first.length < changed_address.length then
+							changed_address = changed_address.gsub! '%', ' '
+						end
 						original_photo_address = "#{Dir.pwd}/html/original#{changed_address}"
 						hd_photo_address = "#{Dir.pwd}/html/hd#{changed_address}"
 						dimensions = FastImage.size(image_address)
@@ -468,8 +474,22 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 		end
 	end
 end
+
+the_all_addresses_from_the_file_are = 0
+if File.file?("all_addresses.citra_config_file_23987") then
+	edit_me=File.open('all_addresses.citra_config_file_23987').read
+	edit_me.gsub!(/\r\n?/, "\n")
+	counter = 1;
+	edit_me.each_line do |line|
+		if counter == 1 then
+			the_all_addresses_from_the_file_are = line.split(/\n/).first.to_i
+		end
+		counter += 1
+	end
+end
+
 all_addresses_file = File.new("all_addresses.citra_config_file_23987", "w+")
-all_addresses_file.puts "#{all_addresses}"
+all_addresses_file.puts "#{all_addresses+the_all_addresses_from_the_file_are}"
 all_addresses_file.close
 if yes_or_no == "yes" then
 	configfile = File.new("last_update/the_date_of_the_last_update.citra_config_file_23987", "w+")
