@@ -316,7 +316,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 					if MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is then
 						start = Time.now
 						changed_address = "#{image_address.split(".#{image_address.split(/\./).last}").first}_#{now_the_time_is}.#{image_address.split(/\./).last}"
-						original_photo_address = "#{Dir.pwd}/html/original"
+						original_photo_address = "#{Dir.pwd}/html/original#{changed_address}"
 						hd_photo_address = "#{Dir.pwd}/html/hd#{changed_address}"
 						dimensions = FastImage.size(image_address)
 						if (dimensions!=nil) then
