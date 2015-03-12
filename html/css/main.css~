@@ -14,12 +14,23 @@ body
 	margin: 3%;
 	max-width:800px;
 	max-height:300px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
+
 }
 #index_photo
 {
 	height:175px;
 	max-width:800px;
-	max-height:300px;
+	max-height:300px;z
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 }
 .album
 {
@@ -32,6 +43,11 @@ body
 	padding: 1%;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 	font-size: 16px;
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
@@ -43,6 +59,11 @@ body
 	margin-top: 10%;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 	font-size: 16px;
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
@@ -56,6 +77,11 @@ body
 	margin:0 auto;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 	font-size: 16px;
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
@@ -83,6 +109,11 @@ table
 	padding: 1%;
 	border: 1px solid #D8C8B8;
 	border-radius: 13px;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 	font-size: 20px;
 	color:#c7b29a;
 	font-family: "Verdana", Geneva, sans-serif;
@@ -118,6 +149,11 @@ a:active {
 	margin-right: 1%;
 	padding: 0.5%;
 	background-color: #D8C8B8;
+	-webkit-filter: drop-shadow(2px 2px 3.5px rgba(0,0,0,0.5));
+	filter: url(#drop-shadow);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#444')";
+	 -moz-box-shadow: 1px 1px 10px #00f;
 }
 #nextprevious
 {
@@ -163,6 +199,8 @@ a:active {
 	margin-top: 3%;
 	margin-bottom: 3%;
 	text-align: center;
+
+	 -moz-box-shadow: 1px 1px 10px #00f;
 }
 #pics_titles
 {
