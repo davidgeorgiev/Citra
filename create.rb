@@ -11,6 +11,7 @@ album_preview_num = 1
 max_lightbox_pixel_height = 0
 only_photos_with_suitable_dimenssions = "no"
 keep_hds = "yes"
+want_hd_in_lightbox = "yes"
 line_num=0
 edit_me=File.open('edit_me.citra_config_file_23987').read
 
@@ -43,6 +44,9 @@ edit_me.each_line do |line|
 	end
 	if (line.split(":").first == "I want to keep hd images in html/hd folder yes/no") then
 		keep_hds = line.split(":").last.split(/\n/).first
+	end
+	if (line.split(":").first == "I want the hd photos in the lightbox") then
+		want_hd_in_lightbox = line.split(":").last.split(/\n/).first
 	end
 end
 class Html
@@ -246,6 +250,12 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		end
 	end
 	text.each_line do |line|
+		href_img = String.new
+		if ((line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no")) and (want_hd_in_lightbox == "yes") then
+			href_img = line.split("*sep*")[0]
+		else
+			href_img = "hd/#{line.split("*sep*")[0].split("original/").last}"
+		end
 		color_from_current_line = line.split("*sep*")[9]
 		photo_counter = photo_counter + 1
 		if page_counter_with_that_color[color_from_current_line] == 1 then
@@ -286,9 +296,9 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		if (photo_counter_with_that_color[color_from_current_line] <= pics_on_page_num-1) then
 			random = Random.rand(2)
 			if (random == 1) then
-				page_with_images_in_current_color.puts "\t\t\t#{line.split("*sep*")[6].split(" ").first}<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>"
+				page_with_images_in_current_color.puts "\t\t\t#{line.split("*sep*")[6].split(" ").first}<a id=\"images_and_date\" href=\"#{href_img}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>"
 			else
-				page_with_images_in_current_color.puts "\t\t\t<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>#{line.split("*sep*")[6].split(" ").first}"
+				page_with_images_in_current_color.puts "\t\t\t<a id=\"images_and_date\" href=\"#{href_img}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>#{line.split("*sep*")[6].split(" ").first}"
 			end
 			if photo_counter_with_that_color[color_from_current_line] == pics_on_page_num-1 then
 				page_with_images_in_current_color.puts "\t\t</div>"
@@ -343,9 +353,9 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 		end
 		random = Random.rand(2)
 		if (random == 1) then
-			pagefile2.puts "\t\t\t#{line.split("*sep*")[6].split(" ").first}<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>"
+			pagefile2.puts "\t\t\t#{line.split("*sep*")[6].split(" ").first}<a id=\"images_and_date\" href=\"#{href_img}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>"
 		else
-			pagefile2.puts "\t\t\t<a id=\"images_and_date\" href=\"#{line.split("*sep*")[0]}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>#{line.split("*sep*")[6].split(" ").first}"
+			pagefile2.puts "\t\t\t<a id=\"images_and_date\" href=\"#{href_img}\" data-lightbox=\"photos\" alt=\"#{line.split("*sep*")[1]}\" rel=\"lightbox\"><img src=\"#{line.split("*sep*")[8]}\" alt=\"#{line.split("*sep*")[1]}\" id=\"gallery_photo\" title = \"#{line.split("*sep*")[1][0..20]}..#{line.split("*sep*")[0][-4..-1]} [#{line.split("*sep*")[4]}px X #{line.split("*sep*")[5]}px]\"/></a>#{line.split("*sep*")[6].split(" ").first}"
 		end
 		random = Random.rand(5)
 		if (random == 2) then
