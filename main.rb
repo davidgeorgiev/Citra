@@ -203,7 +203,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 			puts
 			puts " Do you want to scan the parent dir - y/n"
 			puts "=============================================="
-			if gets.chomp == "y" then
+			if $stdin.gets.chomp == "y" then
 				addr_to_explr = addr_to_explr.split("/")
 				addr_to_explr.delete_at(-1)
 				temp = ""
@@ -232,7 +232,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 			puts " Bye :)"
 			puts "=============================================="
 			yes_or_no = "n"
-			gets.chomp
+			$stdin.gets.chomp
 		end
 	else
 		puts "\e[H\e[2J"
@@ -288,7 +288,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 		puts
 		puts " Do you want to build the directories - y/n"
 		puts "=============================================="
-		if gets.chomp == "y" then
+		if $stdin.gets.chomp == "y" then
 		
 			all_albums = all_album_names.size
 			previous_dir = " "

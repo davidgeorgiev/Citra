@@ -21,4 +21,4 @@ address_is = "http://htmlpreview.github.io/?https://github.com/#{address_is}/blo
 puts "  Your URL is: #{address_is}  "
 puts "=============================================="
 puts
-gets.chomp
+$stdin.gets.chomp
