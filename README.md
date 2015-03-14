@@ -13,7 +13,7 @@
 - *създайте си repository в github специално за галерията*
 - *отворете терминал и изпълнете ruby create_sh_file.rb и въведете своя git HTTPS clone URL*
 - *отворете home папката си и от edit/properties/behaviour трябва Ask me each time да е маркирано в Executable text files*
-- *отворете install_Citra.sh* <br /><br />
+- *отворете install_Citra.sh като преди това с десен бутон маркирайте Properties/Permissions/Allow executing file as program* <br /><br />
 **За всяко обновяване правете следното**
 - *отворете update_gallery.sh от папката на вашето repository и следвайте стъпките* <br />
 
