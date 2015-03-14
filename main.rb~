@@ -488,10 +488,10 @@ if File.file?("all_addresses.citra_config_file_23987") then
 	end
 end
 
+all_addresses_file = File.new("all_addresses.citra_config_file_23987", "w+")
+all_addresses_file.puts "#{all_addresses+the_all_addresses_from_the_file_are}"
+all_addresses_file.close
 if yes_or_no == "yes" then
-	all_addresses_file = File.new("all_addresses.citra_config_file_23987", "w+")
-	all_addresses_file.puts "#{all_addresses+the_all_addresses_from_the_file_are}"
-	all_addresses_file.close
 	configfile = File.new("last_update/the_date_of_the_last_update.citra_config_file_23987", "w+")
 	configfile.puts Time.now
 	configfile.close
