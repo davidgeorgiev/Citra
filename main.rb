@@ -126,26 +126,24 @@ end
 while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 	Dir.glob("#{addr_to_explr}/**/*.*") do |image_address|
 		if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif")) and (image_address.split('/').last.split(/\./).first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
-			
-			if MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is then
+			dimensions = FastImage.size(image_address)
+			if (dimensions!=nil) then
+				width = dimensions[0]
+				height = dimensions[1]
+			else
+				width = 0
+				height = 0
+			end
+			if (MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is) and ((width >= min_size) or (height >= min_size)) then
 				dimensions = FastImage.size(image_address)
-				if (dimensions!=nil) then
-					width = dimensions[0]
-					height = dimensions[1]
-				else
-					width = 0
-					height = 0
-				end
-				if (((width >= min_size) or (height >= min_size))) and (prop < proportion_const_by_user) then
+				if (prop < proportion_const_by_user) then
 					all_addresses += 1
 				end
-				if ((width >= min_size) or (height >= min_size)) then
-					if (lim_prop == "yes") then
-						if (width > height) then
-							prop = width/height
-						else				
-							prop = height/width
-						end
+				if (lim_prop == "yes") then
+					if (width > height) then
+						prop = width/height
+					else				
+						prop = height/width
 					end
 				end
 				if (prop < proportion_const_by_user) then
@@ -316,7 +314,15 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 					image_address = image_address.gsub! '//', '/'
 				end
 				if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif")) and (image_address.split('/').last.split(/\./).first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
-					if MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is then
+					dimensions = FastImage.size(image_address)
+					if (dimensions!=nil) then
+						width = dimensions[0]
+						height = dimensions[1]
+					else
+						width = 0
+						height = 0
+					end
+					if (MyDateAndTime.new.date_to_seconds(File.mtime(image_address).to_s) > last_update_is) and ((width >= min_size) or (height >= min_size)) then
 						start = Time.now
 						changed_address = "#{image_address.split(".#{image_address.split(/\./).last}").first}_#{now_the_time_is}.#{image_address.split(/\./).last}"
 						if changed_address.split("%").first.length < changed_address.length then
@@ -324,79 +330,69 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 						end
 						original_photo_address = "#{Dir.pwd}/html/original#{changed_address}"
 						hd_photo_address = "#{Dir.pwd}/html/hd#{changed_address}"
-						dimensions = FastImage.size(image_address)
-						if (dimensions!=nil) then
-							width = dimensions[0]
-							height = dimensions[1]
-						else
-							width = 0
-							height = 0
-						end
 
-						if ((width >= min_size) or (height >= min_size)) then
-							if (lim_prop == "yes") then
-								if (width > height) then
-									prop = width/height
-								else				
-									prop = height/width
-								end
+						if (lim_prop == "yes") then
+							if (width > height) then
+								prop = width/height
+							else				
+								prop = height/width
 							end
-							if (prop < proportion_const_by_user) then
-								avg_clasificated_color = image_color.classificate_the_color(image_color.rgb_to_hsv(image_color.avg_from_image(image_address)))
-								FileUtils::mkdir_p "#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split('/').last).first}"			
-								if (only_thumbnails == "no") then
-									FileUtils::mkdir_p "#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}"
-								end
-								FileUtils::mkdir_p "#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}"
-								FileUtils::mkdir_p "#{Dir.pwd}/html/mini_thumbs#{image_address.split(image_address.split('/').last).first}"
-								if (image_address.split(/\./).last != "gif") then
-									image = Magick::Image::read(image_address).first
-									thumb = image.resize_to_fit!(max_thumb_pixel_dimensions)
-									thumb.write ("#{Dir.pwd}/html/thumbnails#{changed_address}")
-									thumb_address = "thumbnails#{changed_address}"
-								else
-									FileUtils.cp(image_address,"#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split("/").last).first}")
-									File.rename("#{Dir.pwd}/html/thumbnails#{image_address}","#{Dir.pwd}/html/thumbnails#{changed_address}")
-									thumb_address = "thumbnails#{changed_address}"
-								end
-								address_counter += 1
+						end
+						if (prop < proportion_const_by_user) then
+							avg_clasificated_color = image_color.classificate_the_color(image_color.rgb_to_hsv(image_color.avg_from_image(image_address)))
+							FileUtils::mkdir_p "#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split('/').last).first}"			
+							if (only_thumbnails == "no") then
+								FileUtils::mkdir_p "#{Dir.pwd}/html/original#{image_address.split(image_address.split('/').last).first}"
+							end
+							FileUtils::mkdir_p "#{Dir.pwd}/html/album_preview#{image_address.split(image_address.split('/').last).first}"
+							FileUtils::mkdir_p "#{Dir.pwd}/html/mini_thumbs#{image_address.split(image_address.split('/').last).first}"
+							if (image_address.split(/\./).last != "gif") then
 								image = Magick::Image::read(image_address).first
-								preview_image = image.resize_to_fill(250,250)
-								mini_thumb = image.resize_to_fill(72,72)
-								preview_image.write ("#{Dir.pwd}/html/album_preview#{changed_address}")
-								mini_thumb.write ("#{Dir.pwd}/html/mini_thumbs#{changed_address}")
-								preview_address = "album_preview#{changed_address}"
-								if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
-									FileUtils.cp(image_address,original_photo_address)
-									size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
+								thumb = image.resize_to_fit!(max_thumb_pixel_dimensions)
+								thumb.write ("#{Dir.pwd}/html/thumbnails#{changed_address}")
+								thumb_address = "thumbnails#{changed_address}"
+							else
+								FileUtils.cp(image_address,"#{Dir.pwd}/html/thumbnails#{image_address.split(image_address.split("/").last).first}")
+								File.rename("#{Dir.pwd}/html/thumbnails#{image_address}","#{Dir.pwd}/html/thumbnails#{changed_address}")
+								thumb_address = "thumbnails#{changed_address}"
+							end
+							address_counter += 1
+							image = Magick::Image::read(image_address).first
+							preview_image = image.resize_to_fill(250,250)
+							mini_thumb = image.resize_to_fill(72,72)
+							preview_image.write ("#{Dir.pwd}/html/album_preview#{changed_address}")
+							mini_thumb.write ("#{Dir.pwd}/html/mini_thumbs#{changed_address}")
+							preview_address = "album_preview#{changed_address}"
+							if (height <= max_lightbox_pixel_height) and (only_thumbnails == "no") then
+								FileUtils.cp(image_address,original_photo_address)
+								size_of_part = size_of_part+File.new(image_address).size+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
+							else
+								if (only_thumbnails == "no") then
+									lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
+									lightbox_image.write ("#{Dir.pwd}/html/original#{changed_address}")
+								end
+								if (keep_hds == "yes") and (only_thumbnails == "no") then
+									FileUtils::mkdir_p "#{Dir.pwd}/html/hd#{image_address.split(image_address.split('/').last).first}"
+									FileUtils.cp(image_address,hd_photo_address)
+									size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{changed_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/original#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
 								else
-									if (only_thumbnails == "no") then
-										lightbox_image = image.resize_to_fill(width*max_lightbox_pixel_height/height,max_lightbox_pixel_height)
-										lightbox_image.write ("#{Dir.pwd}/html/original#{changed_address}")
+									if only_thumbnails == "yes" then
+										size_of_part = size_of_part+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
 									end
-									if (keep_hds == "yes") and (only_thumbnails == "no") then
-										FileUtils::mkdir_p "#{Dir.pwd}/html/hd#{image_address.split(image_address.split('/').last).first}"
-										FileUtils.cp(image_address,hd_photo_address)
-										size_of_part = size_of_part+File.new("#{Dir.pwd}/html/hd#{changed_address}").size+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/original#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
-									else
-										if only_thumbnails == "yes" then
-											size_of_part = size_of_part+File.new("#{Dir.pwd}/html/thumbnails#{changed_address}").size+File.new("#{Dir.pwd}/html/album_preview#{changed_address}").size + File.new("#{Dir.pwd}/html/mini_thumbs#{changed_address}").size
-										end
-									end
-								
 								end
-								date = File.mtime(image_address).to_s
-								size_of_part_temp = size_of_part
-								image_address_temp = image_address
-								image_address = "original#{changed_address}"
-								date_in_secs =  MyDateAndTime.new.date_to_seconds(date)
-								name = image_address.split('/').last.split(/\./).first
-								album = image_address.split('/')
-								album = album[album.size - 2]
-								id = id + 1
-								if !images.include? [date_in_secs,image_address,name,album,id,width,height,date,thumb_address,preview_address,avg_clasificated_color] then
-									images << [date_in_secs,image_address,name,album,id,width,height,date,thumb_address,preview_address,avg_clasificated_color]
-								end
+							
+							end
+							date = File.mtime(image_address).to_s
+							size_of_part_temp = size_of_part
+							image_address_temp = image_address
+							image_address = "original#{changed_address}"
+							date_in_secs =  MyDateAndTime.new.date_to_seconds(date)
+							name = image_address.split('/').last.split(/\./).first
+							album = image_address.split('/')
+							album = album[album.size - 2]
+							id = id + 1
+							if !images.include? [date_in_secs,image_address,name,album,id,width,height,date,thumb_address,preview_address,avg_clasificated_color] then
+								images << [date_in_secs,image_address,name,album,id,width,height,date,thumb_address,preview_address,avg_clasificated_color]
 							end
 						end
 						part = Time.now-start
