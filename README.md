@@ -10,6 +10,7 @@
 - gem install rmagick
 След като имате тези неща
 - изтеглете това https://www.dropbox.com/s/vy71cr7voebboyf/install_Citra.zip?dl=0 и го разархивирайте в home папката си
+- създайте си repository в github специално за галерията
 - отворете терминал и изпълнете ruby create_sh_file.rb и въведете своя git HTTPS clone URL
 - отворете home папката си и от edit/properties/behaviour трябва Ask me each time да е маркирано в Executable text files
 - отворете install_Citra.sh
