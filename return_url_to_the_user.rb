@@ -19,6 +19,8 @@ end
 address_is = "http://htmlpreview.github.io/?https://github.com/#{address_is}/blob/master/index.html"
 
 puts "  Your URL is: #{address_is}  "
+puts "______________________________________________"
+puts "  Press any key to delete temp local images"
 puts "=============================================="
 puts
 $stdin.gets.chomp
