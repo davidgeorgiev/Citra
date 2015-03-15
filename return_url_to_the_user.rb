@@ -20,7 +20,14 @@ address_is = "http://htmlpreview.github.io/?https://github.com/#{address_is}/blo
 
 puts "  Your URL is: #{address_is}  "
 puts "______________________________________________"
+puts
 puts "  Press any key to delete temp local images"
+puts "   this will make the local version of the "
+puts "              gallery unusable             "
+puts "______________________________________________"
+puts
+puts "  If you want to use it offline close this  "
+puts "    window always when you run the script  "
 puts "=============================================="
 puts
 $stdin.gets.chomp
