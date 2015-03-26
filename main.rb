@@ -125,7 +125,7 @@ end
 
 while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 	Dir.glob("#{addr_to_explr}/**/*.*") do |image_address|
-		if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif")) and (image_address.split('/').last.split(".#{image_address.split(/\./).last}").first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
+		if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif") or (image_address.split(/\./).last == "PNG") or (image_address.split(/\./).last == "BMP") or (image_address.split(/\./).last == "JPG") or (image_address.split(/\./).last == "JPEG") or (image_address.split(/\./).last == "GIF") or (image_address.split(/\./).last == "TIF")) and (image_address.split('/').last.split(".#{image_address.split(/\./).last}").first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
 			dimensions = FastImage.size(image_address)
 			if (dimensions!=nil) then
 				width = dimensions[0]
@@ -313,7 +313,7 @@ while ((is_there_a_photo == 0) and (yes_or_no == "yes")) do
 				if image_address.split("//").first.length < image_address.length then
 					image_address = image_address.gsub! '//', '/'
 				end
-				if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif")) and (image_address.split('/').last.split(".#{image_address.split(/\./).last}").first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
+				if (((image_address.split(/\./).last == "png") or (image_address.split(/\./).last == "bmp") or (image_address.split(/\./).last == "jpg") or (image_address.split(/\./).last == "jpeg") or (image_address.split(/\./).last == "gif") or (image_address.split(/\./).last == "tif") or (image_address.split(/\./).last == "PNG") or (image_address.split(/\./).last == "BMP") or (image_address.split(/\./).last == "JPG") or (image_address.split(/\./).last == "JPEG") or (image_address.split(/\./).last == "GIF") or (image_address.split(/\./).last == "TIF")) and (image_address.split('/').last.split(".#{image_address.split(/\./).last}").first.length < 255)) and File.file?(image_address) and (!image_address.include? "#{Dir.pwd}") then
 					dimensions = FastImage.size(image_address)
 					if (dimensions!=nil) then
 						width = dimensions[0]
