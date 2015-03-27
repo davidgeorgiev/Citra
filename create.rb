@@ -251,10 +251,14 @@ Dir.glob("#{Dir.pwd}/config/*.citra_config_file_23987") do |my_config_file|
 	end
 	text.each_line do |line|
 		href_img = String.new
-		if ((line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no")) and (want_hd_in_lightbox == "yes") then
+		if ((line.split("*sep*")[5].to_i <= max_lightbox_pixel_height) or (keep_hds == "no")) then
 			href_img = line.split("*sep*")[0]
 		else
-			href_img = "hd/#{line.split("*sep*")[0].split("original/").last}"
+			if (want_hd_in_lightbox == "yes") then
+				href_img = "hd/#{line.split("*sep*")[0].split("original/").last}"
+			else
+				href_img = line.split("*sep*")[0]
+			end
 		end
 		color_from_current_line = line.split("*sep*")[9]
 		photo_counter = photo_counter + 1
